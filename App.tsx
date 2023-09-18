@@ -5,7 +5,6 @@ import { store } from "~redux"
 import { AppContainer } from "~components"
 import { useFonts } from "expo-font"
 import * as SplashScreen from "expo-splash-screen"
-import { useCallback } from "react"
 import { styles } from "src/screens/Watch/elements"
 import { View } from "react-native"
 

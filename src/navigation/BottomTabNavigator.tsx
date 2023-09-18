@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 import { THEME } from "~theme"
 import { BottomTabRouteNames, BottomTabRoutes } from "./routes-config"
+import { Platform } from "react-native"
 
 const Tab = createBottomTabNavigator()
 
@@ -13,8 +14,9 @@ export function BottomTabNavigator() {
 				tabBarStyle: {
 					borderTopRightRadius: 30,
 					borderTopLeftRadius: 30,
-					height: 90,
+					height: Platform.OS == "android" ? 80 : null,
 					paddingTop: 15,
+					paddingBottom: 20,
 					backgroundColor: THEME.COLORS.primaryBlack,
 					borderTopWidth: 0,
 				},
