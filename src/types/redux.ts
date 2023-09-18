@@ -1,7 +1,3 @@
-export interface IRecipeState {
-	tags: []
+export interface IMovieState {
 	list: [],
-	mealplan: [],
-	searchKeyword: string
-	isLoading: boolean
 }

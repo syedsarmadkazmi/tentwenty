@@ -1,17 +1,25 @@
 import { Heading, Image, Box } from "native-base"
-import React from "react"
-import { ENV } from "~config"
 import { GStyles, THEME } from "~theme"
 import { PressableItem } from "../PressableItem"
+import { Routes } from "src/navigation/MainStackNavigator"
+import { useNavigation } from "@react-navigation/native"
+import { StyleSheet } from "react-native"
+import { constructImageURL } from "~services"
 
 const variantStyles = {
 	"large": {
-		height: 180,
+		styles: {
+			height: 180,
+		},
+		textMargin: 5
 	},
 	"small": {
-		height: 150,
-		width: "44%",
-		marginHorizontal: 10,
+		styles: {
+			height: 150,
+			width: "44%",
+			marginHorizontal: 10,
+		},
+		textMargin: 2
 	}
 }
 
@@ -19,21 +27,31 @@ export const MovieCard = ({
 	title,
 	imageURL,
 	variant = "large",
+	id
 }) => {
 
-	return <Box h={150} borderRadius={10} my={2} style={{ ...variantStyles[variant] }} >
-		<PressableItem extraStyles={GStyles.container}>
+	const navigation = useNavigation()
+
+	return <Box h={150} borderRadius={10} my={2} style={[styles.container, { ...variantStyles[variant].styles }]} >
+		<PressableItem extraStyles={GStyles.container} onPress={() => navigation.navigate(Routes.Details, { movieId: id })}>
 			<Image 
-				source={{ uri: `${ENV.IMAGE_BASE_URL}${imageURL}` }} 
+				source={{ uri: `${constructImageURL(imageURL)}` }} 
 				resizeMode="cover"
 				alt=""
 				flex={1}
 				borderRadius={10} overflow={"hidden"}
 			/>
 		
-			<Box position={"absolute"} bottom={5} left={5}>
-				<Heading fontSize={"xl"} color={THEME.COLORS.white}>{title}</Heading>
+			<Box position={"absolute"} bottom={variantStyles[variant].textMargin} left={variantStyles[variant].textMargin} px={2}>
+				<Heading fontSize={"xl"} color={THEME.COLORS.white} numberOfLines={2} >{title}</Heading>
 			</Box>
 		</PressableItem>
 	</Box>
 }
+
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: THEME.COLORS.primaryBlack,
+		overflow: "hidden",
+	}
+})

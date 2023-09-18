@@ -1,1 +1,1 @@
-export * from "./FiltersModal"
+export * from "./VideoModal"

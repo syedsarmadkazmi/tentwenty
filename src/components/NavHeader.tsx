@@ -1,15 +1,17 @@
-import { Box, Flex, Heading, Square } from "native-base"
+import { Box, Flex, Square } from "native-base"
 import { AntDesign } from "@expo/vector-icons"
 import React from "react"
 import { THEME } from "~theme"
 import { PressableItem } from "./PressableItem"
-import { NavHeaderProps } from "~types"
+import { EText, NavHeaderProps } from "~types"
 import { CONSTANTS } from "~config"
 import { StyleSheet } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { Typography } from "./Typography"
 
 const colorStyle = {
-	dark: THEME.COLORS.white,
-	default: THEME.COLORS.primaryBlack,
+	dark: { text: THEME.COLORS.white, bg: THEME.COLORS.black },
+	default: { text: THEME.COLORS.black, bg: THEME.COLORS.white },
 }
 
 export const NavHeader: React.FC<NavHeaderProps>  = ({ 
@@ -21,23 +23,29 @@ export const NavHeader: React.FC<NavHeaderProps>  = ({
 	customStyle
 }) => {
 
+	const navigation = useNavigation()
+
 	if(custom) {
 		return <Flex style={styles.header} >{custom}</Flex>
 	}
 
+	const handleBackPress = () => {
+		onBackPress ? onBackPress() : navigation.goBack()
+	}
 
-	return <Flex style={customStyle ? [styles.header, customStyle] : styles.header} >
+
+	return <Flex backgroundColor={colorStyle[theme].bg} style={customStyle ? [styles.header, customStyle] : styles.header} >
 		{showBackButton &&
 			<Box style={styles.backButton}>
-				<PressableItem onPress={onBackPress}>
+				<PressableItem onPress={handleBackPress}>
 					<Square h={50} px={5}>
-						<AntDesign name="left" size={20} color={colorStyle[theme]} />
+						<AntDesign name="left" size={20} color={colorStyle[theme].text} />
 					</Square>
 				</PressableItem>
 			</Box>
 		}
 
-		<Heading size={"md"} style={{ color: colorStyle[theme] }}>{title}</Heading>
+		<Typography kind={EText.LG_600} style={{ color: colorStyle[theme].text }}>{title}</Typography>
 	</Flex>
 }
 
@@ -47,7 +55,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginTop: CONSTANTS.STATUS_BAR_HEIGHT,
 		width: "100%",
-		backgroundColor: THEME.COLORS.white,
 		paddingBottom: 15,
 	},
 	backButton: {

@@ -1,12 +1,7 @@
-export enum ETabName {
-    RECIPES = "RECIPES",
-    MEALPLAN = "MEALPLAN",
-}
-
 export interface IENV {
     API_URL: string
-	IMAGE_BASE_URL: string
-	FALLBACK_IMAGE: string
+	IMAGE_BASE_URL: (size: string) => string
+    API_KEY: string
 }
 
 export interface IItem {

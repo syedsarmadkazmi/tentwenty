@@ -1,4 +1,4 @@
-import { Details, Home, Search, Watch } from "~screens"
+import { Dashboard, Search, Watch, More } from "~screens"
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons"
 
 export const BottomTabRouteNames = {
@@ -11,7 +11,7 @@ export const BottomTabRouteNames = {
 
 export const BottomTabRoutes = [
 	{
-		component: Details,
+		component: Dashboard,
 		icon: (props) => <MaterialCommunityIcons name="view-dashboard" {...props} />,
 		title: BottomTabRouteNames.Dashboard,
 	},
@@ -26,7 +26,7 @@ export const BottomTabRoutes = [
 		title: BottomTabRouteNames.MediaLibrary,
 	},
 	{
-		component: Home,
+		component: More,
 		icon: (props) => <MaterialCommunityIcons name="format-list-bulleted" {...props} />,
 		title: BottomTabRouteNames.More,
 	},

@@ -1,19 +1,24 @@
 import { createStackNavigator } from "@react-navigation/stack"
-import { Eat } from "~screens"
-import { NavHeader } from "~components"
+import { BottomTabNavigator } from "./BottomTabNavigator"
+import { Details, Search } from "~screens"
 
 const Stack = createStackNavigator()
+
+
+export const Routes = {
+	BottomTabNavigator: "BottomTabNavigator",
+	Details: "Details",
+	Search: "Search",
+}
 
 export function MainStackNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{
-			header: () => {
-				return <>
-					<NavHeader title="Eat" showBackButton={false} />
-				</>
-			},
+			headerShown: false
 		}}>
-			<Stack.Screen name="Eat" component={Eat} />
+			<Stack.Screen name={Routes.BottomTabNavigator} component={BottomTabNavigator} />
+			<Stack.Screen name={Routes.Details} component={Details} />
+			<Stack.Screen name={Routes.Search} component={Search} />
 		</Stack.Navigator>
 	)
 }

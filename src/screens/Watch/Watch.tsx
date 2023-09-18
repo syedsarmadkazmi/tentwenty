@@ -1,11 +1,36 @@
-import { Flex, Heading } from "native-base"
-import { ScrollView, StyleSheet, View } from "react-native"
-import { MovieCard, NavHeader, PressableItem } from "~components"
+import { Flex } from "native-base"
+import { FlatList, StyleSheet, View } from "react-native"
+import { MovieCard, NavHeader, PressableItem, Typography } from "~components"
 import { GStyles } from "~theme"
 import { Ionicons } from "@expo/vector-icons"
+import { useEffect, useState } from "react"
+import { API } from "~apis"
+import { Routes } from "src/navigation/MainStackNavigator"
+import { EText } from "~types"
 
 
-export function Watch() {
+export function Watch({ navigation }) {
+	const [moviesList, setMoviesList] = useState([])
+
+	useEffect(() => {
+		async function fetchData() {
+			const response = await API.MOVIES.UPCOMING()
+			setMoviesList(response?.data?.results)
+		}
+
+		fetchData()
+	}, [])
+
+	const renderItem = ({ item }) => {
+		return(
+			<MovieCard 
+				id={item.id}
+				title={item.original_title} 
+				imageURL={item.backdrop_path}
+			/>
+		)
+	}
+
 	return (
 		<View style={GStyles.container}>
 			<NavHeader 
@@ -13,50 +38,24 @@ export function Watch() {
 				showBackButton={false} 
 				custom={
 					<Flex style={styles.searchBar}>
-						<Heading>Watch</Heading>
-						<PressableItem extraStyles={GStyles.touchable}>
+						<Typography kind={EText.LG_600}>Watch</Typography>
+						<PressableItem extraStyles={GStyles.touchable} onPress={() => navigation.navigate(Routes.Search)}>
 							<Ionicons name="search" size={24} color="black" />
 						</PressableItem>
 					</Flex>
 				}
 			
 			/>
-			<ScrollView style={GStyles.screen}>
-				{/* <Flex style={styles.searchBar}>
-					<Heading>Watch</Heading>
-					<PressableItem extraStyles={GStyles.touchable}>
-						<Ionicons name="search" size={24} color="black" />
-					</PressableItem>
-				</Flex> */}
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/2ii07lSwHarg0gWnJoCYL3Gyd1j.jpg"}
+
+			<View style={GStyles.screen}>
+				<FlatList
+					data={moviesList}
+					extraData={moviesList}
+					keyExtractor={(item) => item.id}
+					renderItem={(data) => renderItem(data)}
+					showsVerticalScrollIndicator={false}
 				/>
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/w2nFc2Rsm93PDkvjY4LTn17ePO0.jpg"}
-				/>
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/w2nFc2Rsm93PDkvjY4LTn17ePO0.jpg"}
-				/>
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/w2nFc2Rsm93PDkvjY4LTn17ePO0.jpg"}
-				/>
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/w2nFc2Rsm93PDkvjY4LTn17ePO0.jpg"}
-				/>
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/w2nFc2Rsm93PDkvjY4LTn17ePO0.jpg"}
-				/>
-				<MovieCard 
-					title={"Jack Reacher"} 
-					imageURL={"/w2nFc2Rsm93PDkvjY4LTn17ePO0.jpg"}
-				/>
-			</ScrollView>
+			</View>
 		</View>
 	)
 }
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		paddingHorizontal: 15,
+		paddingHorizontal: 20,
 		width: "100%"
 	},
 })

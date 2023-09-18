@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native"
 import { THEME } from "./theme"
 
-export const GStyles = StyleSheet.create({
+
+const general = StyleSheet.create({
 	appContainer: {
 		flex: 1,
 		backgroundColor: THEME.COLORS.gray,
@@ -15,10 +16,6 @@ export const GStyles = StyleSheet.create({
 		paddingTop: 20,
 		backgroundColor: THEME.COLORS.grayLight,
 	},
-	header: {
-		fontSize: 16,
-		color: "gray"
-	},
 	touchable: {
 		padding: 10,
 	},
@@ -26,5 +23,51 @@ export const GStyles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-	}
+	},
+	dummyScreen: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: THEME.COLORS.grayLight
+	},
 })
+
+
+const text = StyleSheet.create({
+	SM: {
+		fontSize: 12,
+		fontFamily: THEME.FONTS.Poppins_Regular
+	},
+	SM_600: {
+		fontSize: 12,
+		fontFamily: THEME.FONTS.Poppins_Bold
+	},
+	MD: {
+		fontSize: 14,
+		fontFamily: THEME.FONTS.Poppins_Regular
+	},
+	MD_600: {
+		fontSize: 14,
+		fontFamily: THEME.FONTS.Poppins_Bold
+	},
+	LG: {
+		fontSize: 16,
+		fontFamily: THEME.FONTS.Poppins_Regular
+	},
+	LG_600: {
+		fontSize: 18,
+		fontFamily: THEME.FONTS.Poppins_Bold,
+	},
+	XL_600: {
+		fontSize: 22,
+		fontFamily: THEME.FONTS.Poppins_Bold,
+	}
+
+})
+
+export const GStyles = {
+	...general,
+	text: {
+		...text
+	}
+}

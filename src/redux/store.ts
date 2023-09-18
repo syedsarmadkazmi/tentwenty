@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
 
-import recipesReducer from "./recipes"
+import moviesReducer from "./movies"
 
 export const store = configureStore({
 	reducer: {
-		recipes: recipesReducer
+		movies: moviesReducer
 	}
 })
 

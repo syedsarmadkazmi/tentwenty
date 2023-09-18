@@ -1,17 +1,17 @@
 import { ETheme } from "./general"
 
 export interface SearchResultsCardProps {
+	id: string
 	title: string
 	imageURL: string
 	subTitle: React.ReactNode
 }
 
-export interface FiltersModalProps {
+export interface VideoModalProps {
     title: string
 	visible: boolean
 	onClose: () => void
-	selected: [string]
-	onSelect: (id: string) => void
+	videoId: string
 }
 
 export interface NavHeaderProps {
@@ -26,9 +26,34 @@ export interface NavHeaderProps {
 export interface TextInputProps {
     onClear?: () => void
 	onFilter?: () => void
-    value: string
+    value?: string
     isFilterOn?: boolean
 	onChangeText: (text) => void
 	placeholder?: string
 	onSubmitEditing?: () => void
+}
+
+export interface ButtonPressableProps {
+    title: string
+	filled?: boolean
+	leftIcon?: React.ReactNode
+	rightIcon?: React.ReactNode
+	onPress?: (text) => void
+}
+
+export enum EText {
+	SM = "SM",
+	SM_600 = "SM_600",
+	MD = "MD",
+	MD_600 = "MD_600",
+	LG = "LG",
+	LG_600 = "LG_600",
+	XL_600 = "XL_600",
+}
+
+export interface TypographyProps {
+	kind?: EText
+	children: React.ReactNode
+	style?
+	color?: string
 }

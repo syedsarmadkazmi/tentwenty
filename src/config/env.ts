@@ -1,8 +1,8 @@
 import { IENV } from "~types"
 
 export const ENV: IENV = {
-	API_URL: "https://ddapi.prod.dietdoctor.com/v1",
-	IMAGE_BASE_URL: "https://image.tmdb.org/t/p/w780",
+	API_URL: "https://api.themoviedb.org/3/",
+	IMAGE_BASE_URL: (size) => `https://image.tmdb.org/t/p/${size}`,
 
-	FALLBACK_IMAGE: "/wp-content/uploads/2020/07/Asian-chicken-stir-fry-with-spicy-mayo-v.jpg"
+	API_KEY: "89d3fc9e7d2988e138754587d6de3bf4",
 }

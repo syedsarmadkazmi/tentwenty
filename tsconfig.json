@@ -12,7 +12,8 @@
       "~services": ["src/services"],
       "~theme": ["src/theme"],
       "~components": ["src/components"],
-      "~redux": ["src/redux"]
+      "~redux": ["src/redux"],
+      "~apis": ["src/apis"],
     },
   },
   "include": ["**/*.ts", "**/*.tsx"],
