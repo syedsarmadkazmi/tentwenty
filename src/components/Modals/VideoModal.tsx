@@ -25,6 +25,8 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 	})
 	
 	useEffect(() => {
+		const dimentions = Dimensions.get("screen")
+		setDimensions({screen: dimentions})
 		const subscription = Dimensions.addEventListener(
 			"change",
 			({screen}) => {
@@ -32,7 +34,7 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 			},
 		)
 		return () => subscription?.remove()
-	})
+	}, [])
 
 	const onStateChange = useCallback((state) => {
 		if (state === "ended") {
@@ -61,7 +63,7 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 				onChangeState={onStateChange}
 			/>
 			<Box style={styles.headerContainer}>
-				<NavHeader title={title} onBackPress={onClose} theme={ETheme.dark} customStyle={[{ backgroundColor: null }, Platform.OS == "android" && { marginTop: null }]} />
+				<NavHeader title={title} onBackPress={onClose} theme={ETheme.dark} customStyle={[{ backgroundColor: null }, (Platform.OS == "android" || !isVerticalOrientation) && { marginTop: null }]} />
 			</Box>
 		</Box>
 	</Modal>

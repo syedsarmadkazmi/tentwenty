@@ -24,11 +24,11 @@ export default function App() {
 		"Poppins-Thin": require("./assets/fonts/Poppins-Thin.ttf"),
 	})
 	
-	const onLayoutRootView = useCallback(async () => {
+	const onLayoutRootView = async () => {
 		if (fontsLoaded) {
 			await SplashScreen.hideAsync()
 		}
-	}, [fontsLoaded])
+	}
 	
 	if (!fontsLoaded) {
 		return null
