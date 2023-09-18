@@ -27,7 +27,7 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 	useEffect(() => {
 		const subscription = Dimensions.addEventListener(
 			"change",
-			({window, screen}) => {
+			({screen}) => {
 				setDimensions({screen})
 			},
 		)
