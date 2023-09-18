@@ -1,5 +1,6 @@
 import moment from "moment"
 import { ENV } from "~config"
+import * as ScreenOrientation from "expo-screen-orientation"
 
 /**
  * The function constructs an image URL by concatenating a base URL with a given slug.
@@ -37,4 +38,9 @@ export const formatDate = (date: string) => {
 export const getTrailerVideoId = (movieDetails) => {
 	const trailer = movieDetails?.videos?.results?.find((item) => item?.type === "Trailer" && item?.site === "YouTube")
 	return trailer?.key
+}
+
+
+export const checkOrientation = async () => {
+	return await ScreenOrientation.getOrientationAsync()
 }

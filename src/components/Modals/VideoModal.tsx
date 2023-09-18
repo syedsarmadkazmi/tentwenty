@@ -1,12 +1,14 @@
 import { Box } from "native-base"
-import React, { useCallback, useState } from "react"
-import { Modal, StyleSheet, Dimensions } from "react-native"
+import React, { useCallback, useEffect, useState } from "react"
+import { Modal, StyleSheet, Dimensions, Platform } from "react-native"
 import { ETheme, VideoModalProps } from "~types"
 import YoutubePlayer from "react-native-youtube-iframe"
 import { THEME } from "~theme"
 import { NavHeader } from "../NavHeader"
+import { useSelector } from "react-redux"
+import { RootState } from "~redux"
 
-const { height: screenHeight, width: screenWidth } = Dimensions.get("screen")
+const screenDimensions = Dimensions.get("screen")
 
 export const VideoModal: React.FC<VideoModalProps>  = ({ 
 	title = "Trailer",
@@ -15,7 +17,22 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 	videoId,
 }) => {
 
+	const orientation = useSelector(({ movies }: RootState) => movies?.orientation)
 	const [playing, setPlaying] = useState(true)
+
+	const [dimensions, setDimensions] = useState({
+		screen: screenDimensions,
+	})
+	
+	useEffect(() => {
+		const subscription = Dimensions.addEventListener(
+			"change",
+			({window, screen}) => {
+				setDimensions({screen})
+			},
+		)
+		return () => subscription?.remove()
+	})
 
 	const onStateChange = useCallback((state) => {
 		if (state === "ended") {
@@ -24,6 +41,8 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 		}
 	}, [])
 
+	const isVerticalOrientation = orientation <= 2
+
 	return <Modal
 		animationType="fade"
 		transparent={true}
@@ -31,17 +50,18 @@ export const VideoModal: React.FC<VideoModalProps>  = ({
 		onRequestClose={() => {
 			onClose()
 		}}
+		supportedOrientations={["portrait", "landscape"]}
 	>
 		<Box style={styles.main}>
 			<YoutubePlayer
 				height={300}
-				width={screenWidth}
+				width={isVerticalOrientation ? dimensions.screen.width : dimensions.screen.width - 200}
 				play={playing}
 				videoId={videoId}
 				onChangeState={onStateChange}
 			/>
 			<Box style={styles.headerContainer}>
-				<NavHeader title={title} onBackPress={onClose} theme={ETheme.dark} />
+				<NavHeader title={title} onBackPress={onClose} theme={ETheme.dark} customStyle={[{ backgroundColor: null }, Platform.OS == "android" && { marginTop: null }]} />
 			</Box>
 		</Box>
 	</Modal>
@@ -57,7 +77,7 @@ const styles = StyleSheet.create({
 	headerContainer: {
 		position: "absolute",
 		top: 10,
-		left: 10,
+		left: 5,
 		width: 300
 	}
 })

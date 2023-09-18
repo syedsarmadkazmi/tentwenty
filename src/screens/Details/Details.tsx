@@ -8,22 +8,18 @@ import { useEffect, useState } from "react"
 import { API } from "~apis"
 import { constructImageURL, formatDate, getTrailerVideoId } from "~services"
 import { StatusBar } from "react-native"
-
-
-const badgeVariants = [
-	"default",
-	"success",
-	"error",
-	"info",
-	"warning",
-]
+import { orientationStyles, badgeVariants } from "./elements"
+import { RootState } from "~redux"
+import { useSelector } from "react-redux"
 
 export function Details({ route }) {
 	const [movieDetails, setMovieDetails] = useState(null)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [videoId, setVideoId] = useState("")
+	const orientation = useSelector(({ movies }: RootState) => movies?.orientation)
 	const { movieId } = route.params
 
+	/* get movie details */
 	useEffect(() => {
 		async function fetchData() {
 			const response = await API.MOVIES.DETAILS(movieId)
@@ -37,11 +33,12 @@ export function Details({ route }) {
 		setVideoId(getTrailerVideoId(movieDetails))
 	}, [movieDetails])
 
+
 	if(movieDetails)
 		return (
-			<Flex style={styles.container}>
+			<Flex style={[styles.container, orientationStyles[orientation]?.container]}>
 				<StatusBar barStyle="light-content" />
-				<Box h={"60%"} >
+				<Box style={{ ...orientationStyles[orientation]?.col1 }} {...orientationStyles[orientation]?.col1} >
 					<Image source={{
 						uri: constructImageURL(movieDetails?.backdrop_path, "w1280")
 					}} alt="" flex={1} />
@@ -61,13 +58,16 @@ export function Details({ route }) {
 						</Center>
 					</Box>
 				</Box>
-				<Box h={"40%"} pt={8} px={10}>
+
+				<Box style={{ ...orientationStyles[orientation]?.col2 }} {...orientationStyles[orientation]?.col2} pt={8} px={10}>
 					<VStack space={3}>
 						<Typography kind={EText.LG_600}>Genres</Typography>
 						<HStack space={2}>
 							{movieDetails?.genres.map((item) => {
 								const randomIndex = Math.floor(Math.random()*badgeVariants.length)
-								return <Badge key={item.id} rounded={"2xl"} colorScheme={badgeVariants[randomIndex]}>{item.name}</Badge>
+								return (
+									<Badge key={item.id} rounded={"2xl"} colorScheme={badgeVariants[randomIndex]}>{item.name}</Badge>
+								)
 							})}
 						</HStack>
 						<Divider/>
@@ -91,7 +91,6 @@ export function Details({ route }) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// flexDirection: "row"
 	},
 	overlayContainer: {
 		position: "absolute",

@@ -57,3 +57,7 @@ export interface TypographyProps {
 	style?
 	color?: string
 }
+
+export interface LoaderProps {
+	loading: boolean,
+}
